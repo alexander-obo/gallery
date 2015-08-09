@@ -4,13 +4,14 @@ DROP TABLE IF EXISTS user_roles;
 
 CREATE TABLE users (
     id SERIAL,
-    user_name VARCHAR(20) PRIMARY KEY,
-    user_password VARCHAR(20) NOT NULL
+    user_name VARCHAR(20),
+    user_password VARCHAR(20) NOT NULL,
+    PRIMARY KEY (user_name)
 );
 CREATE TABLE user_roles (
     id SERIAL,
-    user_name varchar(20) NOT NULL,
-    role_name varchar(20) NOT NULL,
+    user_name varchar(20),
+    role_name varchar(20),
     PRIMARY KEY (user_name, role_name)
 );
 CREATE TABLE users_pictures (
