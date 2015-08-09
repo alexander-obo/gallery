@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS users_pictures;
-DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id SERIAL,
@@ -12,7 +12,9 @@ CREATE TABLE user_roles (
     id SERIAL,
     user_name varchar(20),
     role_name varchar(20),
-    PRIMARY KEY (user_name, role_name)
+    PRIMARY KEY (user_name, role_name),
+    FOREIGN KEY (user_name) REFERENCES users(user_name)
+    ON DELETE CASCADE
 );
 CREATE TABLE users_pictures (
     id SERIAL,
