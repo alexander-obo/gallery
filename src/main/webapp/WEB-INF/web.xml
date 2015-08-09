@@ -9,11 +9,11 @@
     </welcome-file-list>
 
     <servlet>
-        <servlet-name>profile</servlet-name>
-        <jsp-file>/WEB-INF/jsp/profile.jsp</jsp-file>
+        <servlet-name>ProfileController</servlet-name>
+        <servlet-class>ao.gallery.web.ProfileController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>profile</servlet-name>
+        <servlet-name>ProfileController</servlet-name>
         <url-pattern>/profile</url-pattern>
     </servlet-mapping>
     <servlet>
