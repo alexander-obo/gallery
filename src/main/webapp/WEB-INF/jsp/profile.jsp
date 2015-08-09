@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>${param['user']}'s gallery</title>
+        <title>${param.user}'s gallery</title>
     </head>
     <body>
         <h1>${param.user}'s gallery</h1>
