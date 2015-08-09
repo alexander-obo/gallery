@@ -7,7 +7,7 @@
     </head>
     <body>
         <h1>${param.user}'s gallery</h1>
-        <c:if test="${pageContext.request.userPrincipal.name eq param.user}">
+        <c:if test="${pageContext.request.remoteUser eq param.user}">
             <h2>This is you.</h2>
         </c:if>
     </body>
