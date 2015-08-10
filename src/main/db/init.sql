@@ -20,8 +20,8 @@ CREATE TABLE users_pictures (
     id SERIAL,
     picture_name VARCHAR(60) NOT NULL,
     picture_uploader_name VARCHAR(20) NOT NULL,
-    picture BLOB NOT NULL,
-    picture_preview BLOB NOT NULL,
+    picture MEDIUMBLOB NOT NULL,
+    picture_preview MEDIUMBLOB NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (picture_uploader_name) REFERENCES users(user_name)
     ON DELETE CASCADE

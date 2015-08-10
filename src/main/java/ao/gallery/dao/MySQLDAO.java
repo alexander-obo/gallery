@@ -1,6 +1,10 @@
 package ao.gallery.dao;
 
-import java.io.File;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class MySQLDAO implements DAO {
 
@@ -13,6 +17,7 @@ public class MySQLDAO implements DAO {
     private static final String DB_CONNECTION_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
     private static final String USER_NAME = "alexander";
     private static final String USER_PASSWORD = "ao_password";
+    private static final String INSERT_PICTURE_QUERY = "INSERT INTO users_pictures (picture_name, picture_uploader_name, picture, picture_preview) VALUES (?, ?, ?, ?)";
 
     public static MySQLDAO getInstance() {
         if (instance == null) {
@@ -30,8 +35,17 @@ public class MySQLDAO implements DAO {
     }
 
     @Override
-    public void addPicture(File picture) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void addPicture(String pictureName, String uploaderName, InputStream picture, InputStream picturePreview) throws AddPictureException {
+        try (Connection connection = DriverManager.getConnection(DB_CONNECTION_URL, USER_NAME, USER_PASSWORD);
+                PreparedStatement statement = connection.prepareStatement(INSERT_PICTURE_QUERY)) {
+            statement.setString(1, pictureName);
+            statement.setString(2, uploaderName);
+            statement.setBinaryStream(3, picture);
+            statement.setBinaryStream(4, picturePreview);
+            statement.execute();
+        } catch (SQLException ex) {
+            throw new AddPictureException(ex);
+        }
     }
 
 }
