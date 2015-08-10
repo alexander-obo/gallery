@@ -56,9 +56,9 @@ public class ProfileController extends HttpServlet {
                     String fileName = fileItem.getName();
                     String fileUploaderName = request.getRemoteUser();
                     InputStream pictureStream = fileItem.getInputStream();
-                    // TODO: get real picture preview
-                    InputStream picturePreviewStream = fileItem.getInputStream();
-                    dao.addPicture(fileName, fileUploaderName, pictureStream, picturePreviewStream);
+                    // TODO: get real thumbnail
+                    InputStream thumbnailStream = fileItem.getInputStream();
+                    dao.addPicture(fileName, fileUploaderName, pictureStream, thumbnailStream);
                 }
             }
         } catch (FileUploadException | IOException | AddPictureException ex) {
