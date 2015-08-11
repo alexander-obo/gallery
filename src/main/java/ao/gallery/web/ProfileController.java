@@ -1,6 +1,6 @@
 package ao.gallery.web;
 
-import ao.gallery.dao.AddPictureException;
+import ao.gallery.dao.DAOException;
 import ao.gallery.dao.DAO;
 import ao.gallery.dao.MySQLDAO;
 import ao.gallery.dao.Picture;
@@ -63,7 +63,7 @@ public class ProfileController extends HttpServlet {
                     dao.addPicture(picture);
                 }
             }
-        } catch (FileUploadException | IOException | AddPictureException ex) {
+        } catch (FileUploadException | IOException | DAOException ex) {
             log("Adding picture exception", ex);
         }
     }

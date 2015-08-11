@@ -34,7 +34,7 @@ public class MySQLDAO implements DAO {
     }
 
     @Override
-    public void addPicture(Picture picture) throws AddPictureException {
+    public void addPicture(Picture picture) throws DAOException {
         try (Connection connection = DriverManager.getConnection(DB_CONNECTION_URL, USER_NAME, USER_PASSWORD);
                 PreparedStatement statement = connection.prepareStatement(INSERT_PICTURE_QUERY)) {
             statement.setString(1, picture.getName());
@@ -43,7 +43,7 @@ public class MySQLDAO implements DAO {
             statement.setBinaryStream(4, picture.getThumbnail());
             statement.execute();
         } catch (SQLException ex) {
-            throw new AddPictureException(ex);
+            throw new DAOException(ex);
         }
     }
 
