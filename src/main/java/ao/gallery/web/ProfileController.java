@@ -3,6 +3,7 @@ package ao.gallery.web;
 import ao.gallery.dao.AddPictureException;
 import ao.gallery.dao.DAO;
 import ao.gallery.dao.MySQLDAO;
+import ao.gallery.dao.Picture;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,7 +59,8 @@ public class ProfileController extends HttpServlet {
                     InputStream pictureStream = fileItem.getInputStream();
                     // TODO: get real thumbnail
                     InputStream thumbnailStream = fileItem.getInputStream();
-                    dao.addPicture(fileName, fileUploaderName, pictureStream, thumbnailStream);
+                    Picture picture = new Picture(fileName, fileUploaderName, pictureStream, thumbnailStream);
+                    dao.addPicture(picture);
                 }
             }
         } catch (FileUploadException | IOException | AddPictureException ex) {

@@ -1,6 +1,5 @@
 package ao.gallery.dao;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -35,13 +34,13 @@ public class MySQLDAO implements DAO {
     }
 
     @Override
-    public void addPicture(String pictureName, String uploaderName, InputStream picture, InputStream thumbnail) throws AddPictureException {
+    public void addPicture(Picture picture) throws AddPictureException {
         try (Connection connection = DriverManager.getConnection(DB_CONNECTION_URL, USER_NAME, USER_PASSWORD);
                 PreparedStatement statement = connection.prepareStatement(INSERT_PICTURE_QUERY)) {
-            statement.setString(1, pictureName);
-            statement.setString(2, uploaderName);
-            statement.setBinaryStream(3, picture);
-            statement.setBinaryStream(4, thumbnail);
+            statement.setString(1, picture.getName());
+            statement.setString(2, picture.getOwnerName());
+            statement.setBinaryStream(3, picture.getContent());
+            statement.setBinaryStream(4, picture.getThumbnail());
             statement.execute();
         } catch (SQLException ex) {
             throw new AddPictureException(ex);
