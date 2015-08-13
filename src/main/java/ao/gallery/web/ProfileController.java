@@ -1,5 +1,6 @@
 package ao.gallery.web;
 
+import ao.gallery.Util;
 import ao.gallery.dao.DAOException;
 import ao.gallery.dao.DAO;
 import ao.gallery.dao.MySQLDAO;
@@ -59,13 +60,12 @@ public class ProfileController extends HttpServlet {
                     String fileName = fileItem.getName();
                     String fileUploaderName = request.getRemoteUser();
                     byte[] pictureBytes = fileItem.get();
-                    // TODO: get real thumbnail
-                    byte[] thumbnailBytes = fileItem.get();
+                    byte[] thumbnailBytes = Util.getPictureThumbnail(pictureBytes);
                     Picture picture = new Picture(fileName, fileUploaderName, pictureBytes, thumbnailBytes);
                     dao.addPicture(picture);
                 }
             }
-        } catch (FileUploadException | DAOException ex) {
+        } catch (FileUploadException | IOException | DAOException ex) {
             log("Adding picture exception", ex);
         }
     }
