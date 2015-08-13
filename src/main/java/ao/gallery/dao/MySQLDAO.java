@@ -1,6 +1,5 @@
 package ao.gallery.dao;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -44,8 +43,8 @@ public class MySQLDAO implements DAO {
                 PreparedStatement statement = connection.prepareStatement(INSERT_PICTURE_QUERY)) {
             statement.setString(1, picture.getName());
             statement.setString(2, picture.getOwnerName());
-            statement.setBinaryStream(3, picture.getContent());
-            statement.setBinaryStream(4, picture.getThumbnail());
+            statement.setBytes(3, picture.getContent());
+            statement.setBytes(4, picture.getThumbnail());
             statement.execute();
         } catch (SQLException ex) {
             throw new DAOException(ex);
@@ -64,8 +63,8 @@ public class MySQLDAO implements DAO {
                 String pictureName = resultSet.getString(2);
                 // TODO do not query picture uploader name, it is parameter
                 String pictureUploaderName = resultSet.getString(3);
-                InputStream pictureContent = resultSet.getBinaryStream(4);
-                InputStream thumbnail = resultSet.getBinaryStream(5);
+                byte[] pictureContent = resultSet.getBytes(4);
+                byte[] thumbnail = resultSet.getBytes(5);
                 Picture picture = new Picture(pictureId, pictureName, pictureUploaderName, pictureContent, thumbnail);
                 pictures.add(picture);
             }

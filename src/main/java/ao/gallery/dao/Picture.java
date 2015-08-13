@@ -1,7 +1,5 @@
 package ao.gallery.dao;
 
-import java.io.InputStream;
-
 public class Picture {
 
     // if picture does not in a storage
@@ -9,14 +7,14 @@ public class Picture {
     private final int id;
     private String name;
     private final String ownerName;
-    private final InputStream content;
-    private final InputStream thumbnail;
+    private final byte[] content;
+    private final byte[] thumbnail;
 
-    public Picture(String name, String ownerName, InputStream content, InputStream thumbnail) {
+    public Picture(String name, String ownerName, byte[] content, byte[] thumbnail) {
         this(DEFAULT_ID, name, ownerName, content, thumbnail);
     }
 
-    public Picture(int id, String name, String ownerName, InputStream content, InputStream thumbnail) {
+    public Picture(int id, String name, String ownerName, byte[] content, byte[] thumbnail) {
         this.id = id;
         this.name = name;
         this.ownerName = ownerName;
@@ -40,11 +38,11 @@ public class Picture {
         return ownerName;
     }
 
-    public InputStream getContent() {
+    public byte[] getContent() {
         return content;
     }
 
-    public InputStream getThumbnail() {
+    public byte[] getThumbnail() {
         return thumbnail;
     }
 

@@ -6,7 +6,6 @@ import ao.gallery.dao.MySQLDAO;
 import ao.gallery.dao.Picture;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -56,14 +55,14 @@ public class ProfileController extends HttpServlet {
                 if (!fileItem.isFormField()) {
                     String fileName = fileItem.getName();
                     String fileUploaderName = request.getRemoteUser();
-                    InputStream pictureStream = fileItem.getInputStream();
+                    byte[] pictureBytes = fileItem.get();
                     // TODO: get real thumbnail
-                    InputStream thumbnailStream = fileItem.getInputStream();
-                    Picture picture = new Picture(fileName, fileUploaderName, pictureStream, thumbnailStream);
+                    byte[] thumbnailBytes = fileItem.get();
+                    Picture picture = new Picture(fileName, fileUploaderName, pictureBytes, thumbnailBytes);
                     dao.addPicture(picture);
                 }
             }
-        } catch (FileUploadException | IOException | DAOException ex) {
+        } catch (FileUploadException | DAOException ex) {
             log("Adding picture exception", ex);
         }
     }
