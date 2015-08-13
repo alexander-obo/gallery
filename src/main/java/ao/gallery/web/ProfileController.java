@@ -6,6 +6,8 @@ import ao.gallery.dao.MySQLDAO;
 import ao.gallery.dao.Picture;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,6 +32,7 @@ public class ProfileController extends HttpServlet {
         if (ServletFileUpload.isMultipartContent(request)) {
             processMultipartContent(request);
         }
+        preparePicturesToRender(request);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");
         dispatcher.forward(request, response);
     }
@@ -64,6 +67,21 @@ public class ProfileController extends HttpServlet {
             }
         } catch (FileUploadException | DAOException ex) {
             log("Adding picture exception", ex);
+        }
+    }
+
+    private void preparePicturesToRender(HttpServletRequest request) {
+        try {
+            List<Picture> pictures = dao.getUserPictures(request.getRemoteUser());
+            List<String> base64Thumbnailes = new ArrayList<>();
+            Base64.Encoder encoder = Base64.getEncoder();
+            for (Picture picture : pictures) {
+                byte[] thumbnailBytes = picture.getThumbnail();
+                base64Thumbnailes.add(encoder.encodeToString(thumbnailBytes));
+            }
+            request.setAttribute("thumbnails", base64Thumbnailes);
+        } catch (DAOException ex) {
+            log("Error getting pictures", ex);
         }
     }
 
