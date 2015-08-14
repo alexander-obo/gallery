@@ -72,7 +72,7 @@ public class ProfileController extends HttpServlet {
 
     private void preparePicturesToRender(HttpServletRequest request) {
         try {
-            List<Picture> pictures = dao.getUserPictures(request.getRemoteUser());
+            List<Picture> pictures = dao.getUserPictures(request.getParameter("user"));
             List<String> base64Thumbnailes = new ArrayList<>();
             Base64.Encoder encoder = Base64.getEncoder();
             for (Picture picture : pictures) {

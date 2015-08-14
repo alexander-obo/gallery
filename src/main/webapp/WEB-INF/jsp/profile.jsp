@@ -12,9 +12,9 @@
                 <input type="file" name="picture">
                 <input type="submit" value="Submit">
             </form>
-            <c:forEach items="${thumbnails}" var="thumbnail">
-                <img src="data:image/jpg;base64,${thumbnail}">
-            </c:forEach>
         </c:if>
+        <c:forEach items="${thumbnails}" var="thumbnail">
+            <img src="data:image/jpg;base64,${thumbnail}">
+        </c:forEach>
     </body>
 </html>
