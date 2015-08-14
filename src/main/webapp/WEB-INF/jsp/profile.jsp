@@ -8,7 +8,7 @@
     <body>
         <h1>${param.user}'s gallery</h1>
         <c:if test="${pageContext.request.remoteUser eq param.user}">
-            <form method="POST" enctype="multipart/form-data" action="profile">
+            <form method="POST" enctype="multipart/form-data" action="profile?user=${param.user}">
                 <input type="file" name="picture">
                 <input type="submit" value="Submit">
             </form>
