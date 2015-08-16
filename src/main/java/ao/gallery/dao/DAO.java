@@ -8,4 +8,6 @@ public interface DAO {
 
     List<Picture> getUserPictures(String userName) throws DAOException;
 
+    void addUser(User user) throws DAOException;
+
 }

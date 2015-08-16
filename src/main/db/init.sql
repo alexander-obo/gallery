@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id SERIAL,
+    user_email VARCHAR(50) NOT NULL UNIQUE,
     user_name VARCHAR(20),
     user_password VARCHAR(20) NOT NULL,
     PRIMARY KEY (user_name)
@@ -27,5 +28,5 @@ CREATE TABLE users_pictures (
     ON DELETE CASCADE
 );
 
-INSERT INTO users (user_name, user_password) VALUES ('admin', 'admin');
+INSERT INTO users (user_email, user_name, user_password) VALUES ('admin@admin.com', 'admin', 'admin');
 INSERT INTO user_roles (user_name, role_name) VALUES ('admin', 'admin');

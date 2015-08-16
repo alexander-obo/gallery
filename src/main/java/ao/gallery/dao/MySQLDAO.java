@@ -21,6 +21,8 @@ public class MySQLDAO implements DAO {
     private static final String USER_PASSWORD = "ao_password";
     private static final String INSERT_PICTURE_QUERY = "INSERT INTO users_pictures (picture_name, uploader_name, picture, thumbnail) VALUES (?, ?, ?, ?)";
     private static final String SELECT_USER_PICTURES_QUERY = "SELECT * FROM users_pictures WHERE uploader_name = ?";
+    private static final String INSERT_USER_QUERY = "INSERT INTO users (user_email, user_name, user_password) VALUES (?, ?, ?)";
+    private static final String INSERT_USER_ROLE_QUERY = "INSERT INTO user_roles (user_name, role_name) VALUES (?, ?)";
 
     public static MySQLDAO getInstance() {
         if (instance == null) {
@@ -72,6 +74,29 @@ public class MySQLDAO implements DAO {
             throw new DAOException(ex);
         }
         return pictures;
+    }
+
+    @Override
+    public void addUser(User user) throws DAOException {
+        try (Connection connection = DriverManager.getConnection(DB_CONNECTION_URL, USER_NAME, USER_PASSWORD)) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement addUserStatement = connection.prepareStatement(INSERT_USER_QUERY);
+                    PreparedStatement addUserRoleStatement = connection.prepareStatement(INSERT_USER_ROLE_QUERY)) {
+                addUserStatement.setString(1, user.getEmail());
+                addUserStatement.setString(2, user.getLogin());
+                addUserStatement.setString(3, user.getPassword());
+                addUserStatement.execute();
+                addUserRoleStatement.setString(1, user.getLogin());
+                addUserRoleStatement.setString(2, user.getRole());
+                addUserRoleStatement.execute();
+                connection.commit();
+            } catch (SQLException ex) {
+                connection.rollback();
+                throw ex;
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        }
     }
 
 }
