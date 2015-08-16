@@ -7,6 +7,10 @@
     </head>
     <body>
         <h1>${param.user}'s gallery</h1>
+        <form method="POST" action="profile">
+            <input type="submit" value="Logout">
+            <input type="hidden" name="action" value="logout">
+        </form>
         <c:if test="${pageContext.request.remoteUser eq param.user}">
             <form method="POST" enctype="multipart/form-data" action="profile?user=${param.user}">
                 <input type="file" name="picture">

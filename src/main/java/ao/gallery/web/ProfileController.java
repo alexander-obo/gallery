@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -40,6 +41,11 @@ public class ProfileController extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if (action != null && action.equals("logout")) {
+            logout(request, response);
+            return;
+        }
         doGet(request, response);
     }
 
@@ -83,6 +89,13 @@ public class ProfileController extends HttpServlet {
         } catch (DAOException ex) {
             log("Error getting pictures", ex);
         }
+    }
+
+    private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        session.invalidate();
+        request.logout();
+        response.sendRedirect("login.html");
     }
 
 }
