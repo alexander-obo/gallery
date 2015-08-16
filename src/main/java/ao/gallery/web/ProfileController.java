@@ -31,9 +31,6 @@ public class ProfileController extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (ServletFileUpload.isMultipartContent(request)) {
-            processMultipartContent(request);
-        }
         preparePicturesToRender(request);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");
         dispatcher.forward(request, response);
@@ -46,7 +43,10 @@ public class ProfileController extends HttpServlet {
             logout(request, response);
             return;
         }
-        doGet(request, response);
+        if (ServletFileUpload.isMultipartContent(request)) {
+            processMultipartContent(request);
+        }
+        response.sendRedirect("profile?user=" + request.getRemoteUser());
     }
 
     private void processMultipartContent(HttpServletRequest request) {

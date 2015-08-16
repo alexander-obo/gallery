@@ -12,7 +12,7 @@
             <input type="hidden" name="action" value="logout">
         </form>
         <c:if test="${pageContext.request.remoteUser eq param.user}">
-            <form method="POST" enctype="multipart/form-data" action="profile?user=${param.user}">
+            <form method="POST" enctype="multipart/form-data" action="profile">
                 <input type="file" name="picture">
                 <input type="submit" value="Submit">
             </form>
