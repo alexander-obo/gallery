@@ -62,7 +62,7 @@ public class ProfileController extends HttpServlet {
         try {
             List<FileItem> fileItems = servletFileUpload.parseRequest(request);
             for (FileItem fileItem : fileItems) {
-                if (!fileItem.isFormField()) {
+                if (!fileItem.isFormField() && fileItem.getSize() > 0) {
                     String fileName = fileItem.getName();
                     String fileUploaderName = request.getRemoteUser();
                     byte[] pictureBytes = fileItem.get();
