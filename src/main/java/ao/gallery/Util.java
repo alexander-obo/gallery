@@ -10,12 +10,19 @@ import javax.imageio.ImageIO;
 
 public class Util {
 
+    private static final int MAX_THUMBNAIL_SIDE_LENGTH = 100;
+
     public static byte[] getPictureThumbnail(byte[] pictureBytes) throws IOException {
         byte[] thumbnailBytes = null;
         InputStream in = new ByteArrayInputStream(pictureBytes);
         BufferedImage bufferedThumbnail = ImageIO.read(in);
+        int width = bufferedThumbnail.getWidth();
+        int height = bufferedThumbnail.getHeight();
+        double compressionRate = calculateCompressionRate(width, height, MAX_THUMBNAIL_SIDE_LENGTH);
         int type = bufferedThumbnail.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : bufferedThumbnail.getType();
-        bufferedThumbnail = resizeImage(bufferedThumbnail, type, 100, 100);
+        int thumbnailWidth = (int) (width * compressionRate);
+        int thumbnailHeight = (int) (height * compressionRate);
+        bufferedThumbnail = resizeImage(bufferedThumbnail, type, thumbnailWidth, thumbnailHeight);
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             ImageIO.write(bufferedThumbnail, "jpg", baos);
             baos.flush();
@@ -30,5 +37,10 @@ public class Util {
         g.drawImage(originalImage, 0, 0, width, height, null);
         g.dispose();
         return resizedImage;
+    }
+
+    private static double calculateCompressionRate(int width, int height, int maxSize) {
+        int maximum = width > height ? width : height;
+        return 1.0 * maxSize / maximum;
     }
 }
