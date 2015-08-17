@@ -13,18 +13,18 @@ public class Util {
     private static final int MAX_THUMBNAIL_SIDE_LENGTH = 100;
 
     public static byte[] getPictureThumbnail(byte[] pictureBytes) throws IOException {
-        byte[] thumbnailBytes = null;
         InputStream in = new ByteArrayInputStream(pictureBytes);
-        BufferedImage bufferedThumbnail = ImageIO.read(in);
-        int width = bufferedThumbnail.getWidth();
-        int height = bufferedThumbnail.getHeight();
-        double compressionRate = calculateCompressionRate(width, height, MAX_THUMBNAIL_SIDE_LENGTH);
-        int type = bufferedThumbnail.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : bufferedThumbnail.getType();
-        int thumbnailWidth = (int) (width * compressionRate);
-        int thumbnailHeight = (int) (height * compressionRate);
-        bufferedThumbnail = resizeImage(bufferedThumbnail, type, thumbnailWidth, thumbnailHeight);
+        BufferedImage picture = ImageIO.read(in);
+        int pictureWidth = picture.getWidth();
+        int pictureHeight = picture.getHeight();
+        double compressionRate = calculateCompressionRate(pictureWidth, pictureHeight, MAX_THUMBNAIL_SIDE_LENGTH);
+        int thumbnailWidth = (int) (pictureWidth * compressionRate);
+        int thumbnailHeight = (int) (pictureHeight * compressionRate);
+        int type = picture.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : picture.getType();
+        BufferedImage thumbnail = resizeImage(picture, type, thumbnailWidth, thumbnailHeight);
+        byte[] thumbnailBytes = null;
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            ImageIO.write(bufferedThumbnail, "jpg", baos);
+            ImageIO.write(thumbnail, "jpg", baos);
             baos.flush();
             thumbnailBytes = baos.toByteArray();
         }
