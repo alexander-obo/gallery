@@ -16,7 +16,7 @@ public class RegistrationController extends HttpServlet {
     private final DAO dao = MySQLDAO.getInstance();
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
@@ -26,12 +26,16 @@ public class RegistrationController extends HttpServlet {
             response.sendRedirect("login");
         } catch (DAOException e) {
             log("Error adding user", e);
-            response.sendRedirect("registration");
+            forwardToRegistrationPage(request, response);
         }
     }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        forwardToRegistrationPage(request, response);
+    }
+
+    private void forwardToRegistrationPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registration.jsp");
         dispatcher.forward(request, response);
     }
