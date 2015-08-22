@@ -58,4 +58,35 @@ public class ValidationUtilTest {
         String email = "some@email.com";
         assertTrue("Email " + email + " is valid", ValidationUtil.isEmailValid(email));
     }
+
+    @Test
+    public void isLoginValid_null_notValid() {
+        assertFalse("Login cannot be null", ValidationUtil.isLoginValid(null));
+    }
+
+    @Test
+    public void isLoginValid_emptyString_notValid() {
+        assertFalse("Login cannot be empty", ValidationUtil.isLoginValid(""));
+    }
+
+    @Test
+    public void isLoginValid_stringOfSpacesOnly_notValid() {
+        assertFalse("Login cannot be empty", ValidationUtil.isLoginValid("      "));
+    }
+
+    @Test
+    public void isLoginValid_tooShortLogin_notValid() {
+        assertFalse("Login cannot be less than 3 symbols", ValidationUtil.isLoginValid("ab"));
+    }
+
+    @Test
+    public void isLoginValid_tooLongLogin_notValid() {
+        assertFalse("Login cannot be greater than 20 symbols", ValidationUtil.isLoginValid("abcdeabcdeabcdeabcdea"));
+    }
+
+    @Test
+    public void isLoginValid_simpleLogin_valid() {
+        String login = "simpleUser";
+        assertTrue("Login " + login + " is valid", ValidationUtil.isLoginValid(login));
+    }
 }
