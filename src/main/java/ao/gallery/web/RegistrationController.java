@@ -26,6 +26,7 @@ public class RegistrationController extends HttpServlet {
             response.sendRedirect("login");
         } catch (DAOException e) {
             log("Error adding user", e);
+            request.setAttribute("errorMessage", e.getMessage());
             forwardToRegistrationPage(request, response);
         }
     }
