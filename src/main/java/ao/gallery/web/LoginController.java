@@ -22,16 +22,16 @@ public class LoginController extends HttpServlet {
             log("Login failed", ex);
             session.invalidate();
             request.setAttribute("errorMessage", ex.getMessage());
-            forwardToLoginJsp(request, response);
+            forwardToLoginPage(request, response);
         }
     }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        forwardToLoginJsp(request, response);
+        forwardToLoginPage(request, response);
     }
 
-    private void forwardToLoginJsp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void forwardToLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
         dispatcher.forward(request, response);
     }
