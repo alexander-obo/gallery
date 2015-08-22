@@ -1,6 +1,6 @@
 package ao.gallery.web;
 
-import ao.gallery.Util;
+import ao.gallery.util.Util;
 import ao.gallery.dao.DAOException;
 import ao.gallery.dao.DAO;
 import ao.gallery.dao.MySQLDAO;
