@@ -89,4 +89,35 @@ public class ValidationUtilTest {
         String login = "simpleUser";
         assertTrue("Login " + login + " is valid", ValidationUtil.isLoginValid(login));
     }
+
+    @Test
+    public void isPasswordValid_null_notValid() {
+        assertFalse("Password cannot be null", ValidationUtil.isPasswordValid(null));
+    }
+
+    @Test
+    public void isPasswordValid_emptyString_notValid() {
+        assertFalse("Password cannot be empty", ValidationUtil.isPasswordValid(""));
+    }
+
+    @Test
+    public void isPasswordValid_stringOfSpacesOnly_notValid() {
+        assertFalse("Password cannot be empty", ValidationUtil.isPasswordValid("      "));
+    }
+
+    @Test
+    public void isPasswordValid_tooShortPassword_notValid() {
+        assertFalse("Password cannot be less than 6 symbols", ValidationUtil.isPasswordValid("abcde"));
+    }
+
+    @Test
+    public void isPasswordValid_tooLongPassword_notValid() {
+        assertFalse("Password cannot be greater than 20 symbols", ValidationUtil.isPasswordValid("abcdeabcdeabcdeabcdea"));
+    }
+
+    @Test
+    public void isPasswordValid_simplePassword_valid() {
+        String password = "password";
+        assertTrue("Password \"" + password + "\" is valid", ValidationUtil.isPasswordValid(password));
+    }
 }

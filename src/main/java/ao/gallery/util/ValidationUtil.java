@@ -14,6 +14,9 @@ public final class ValidationUtil {
     private static final int MINIMUM_LOGIN_LENGTH = 3;
     private static final int MAXIMUM_LOGIN_LENGTH = 20;
 
+    private static final int MINIMUM_PASSWORD_LENGTH = 6;
+    private static final int MAXIMUM_PASSWORD_LENGTH = 20;
+
     public static boolean isEmailValid(String email) {
         if (email == null) {
             return false;
@@ -30,5 +33,12 @@ public final class ValidationUtil {
             return false;
         }
         return !(login.length() < MINIMUM_LOGIN_LENGTH || login.length() > MAXIMUM_LOGIN_LENGTH);
+    }
+
+    public static boolean isPasswordValid(String password) {
+        if (StringUtils.isBlank(password)) {
+            return false;
+        }
+        return !(password.length() < MINIMUM_PASSWORD_LENGTH || password.length() > MAXIMUM_PASSWORD_LENGTH);
     }
 }
