@@ -1,3 +1,5 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="false"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,7 +7,7 @@
     </head>
     <body>
         <div>
-            <form method="POST" action="register">
+            <form method="POST" action="registration">
                 <input type="text" placeholder="Email" name="email">
                 <input type="text" placeholder="Login" name="login">
                 <input type="password" placeholder="Password" name="password">

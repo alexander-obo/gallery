@@ -5,12 +5,14 @@ import ao.gallery.dao.DAOException;
 import ao.gallery.dao.MySQLDAO;
 import ao.gallery.dao.User;
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RegistrationController extends HttpServlet {
-    
+
     private final DAO dao = MySQLDAO.getInstance();
 
     @Override
@@ -24,7 +26,13 @@ public class RegistrationController extends HttpServlet {
             response.sendRedirect("login");
         } catch (DAOException e) {
             log("Error adding user", e);
-            response.sendRedirect("registration.html");
+            response.sendRedirect("registration");
         }
+    }
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/registration.jsp");
+        dispatcher.forward(request, response);
     }
 }
