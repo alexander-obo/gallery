@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 public class LoginController extends HttpServlet {
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userName = request.getParameter("login");
         String password = request.getParameter("password");
         HttpSession session = request.getSession();
@@ -21,12 +21,17 @@ public class LoginController extends HttpServlet {
         } catch (ServletException ex) {
             log("Login failed", ex);
             session.invalidate();
-            response.sendRedirect("login_failed.html");
+            request.setAttribute("errorMessage", ex.getMessage());
+            forwardToLoginJsp(request, response);
         }
     }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        forwardToLoginJsp(request, response);
+    }
+
+    private void forwardToLoginJsp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
         dispatcher.forward(request, response);
     }
