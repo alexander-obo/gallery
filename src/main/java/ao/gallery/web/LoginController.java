@@ -1,6 +1,7 @@
 package ao.gallery.web;
 
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,5 +23,11 @@ public class LoginController extends HttpServlet {
             session.invalidate();
             response.sendRedirect("login_failed.html");
         }
+    }
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
+        dispatcher.forward(request, response);
     }
 }

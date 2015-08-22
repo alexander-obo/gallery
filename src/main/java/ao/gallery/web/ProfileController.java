@@ -95,7 +95,7 @@ public class ProfileController extends HttpServlet {
         HttpSession session = request.getSession(false);
         session.invalidate();
         request.logout();
-        response.sendRedirect("login.html");
+        response.sendRedirect("login");
     }
 
 }
