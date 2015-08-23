@@ -113,6 +113,13 @@ public class ValidationUtilTest {
     }
 
     @Test
+    public void isLoginValid_loginWithAllowedDelimiters_valid() {
+        assertTrue("Login can contains a \".\" symbol", ValidationUtil.isLoginValid("user.login"));
+        assertTrue("Login can contains a \"-\" symbol", ValidationUtil.isLoginValid("user-login"));
+        assertTrue("Login can contains a \"_\" symbol", ValidationUtil.isLoginValid("user_login"));
+    }
+
+    @Test
     public void isPasswordValid_null_notValid() {
         assertFalse("Password cannot be null", ValidationUtil.isPasswordValid(null));
     }
