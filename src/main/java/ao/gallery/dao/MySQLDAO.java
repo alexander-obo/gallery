@@ -23,6 +23,7 @@ public class MySQLDAO implements DAO {
     private static final String SELECT_USER_PICTURES_QUERY = "SELECT * FROM users_pictures WHERE uploader_name = ?";
     private static final String INSERT_USER_QUERY = "INSERT INTO users (user_email, user_name, user_password) VALUES (?, ?, ?)";
     private static final String INSERT_USER_ROLE_QUERY = "INSERT INTO user_roles (user_name, role_name) VALUES (?, ?)";
+    private static final String SELECT_USERS_NAMES_QUERY = "SELECT user_name FROM users WHERE user_name LIKE ?";
 
     public static MySQLDAO getInstance() {
         if (instance == null) {
@@ -97,6 +98,22 @@ public class MySQLDAO implements DAO {
         } catch (SQLException ex) {
             throw new DAOException(ex);
         }
+    }
+
+    @Override
+    public List<String> getUsersNames(String name) throws DAOException {
+        List<String> usersNames = new ArrayList<>();
+        try (Connection connection = DriverManager.getConnection(DB_CONNECTION_URL, USER_NAME, USER_PASSWORD);
+                PreparedStatement statement = connection.prepareStatement(SELECT_USERS_NAMES_QUERY)) {
+            statement.setString(1, name + "%");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                usersNames.add(resultSet.getString(1));
+            }
+        } catch (SQLException ex) {
+            throw new DAOException(ex);
+        }
+        return usersNames;
     }
 
 }

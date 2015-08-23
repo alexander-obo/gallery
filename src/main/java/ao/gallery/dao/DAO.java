@@ -10,4 +10,6 @@ public interface DAO {
 
     void addUser(User user) throws DAOException;
 
+    List<String> getUsersNames(String name) throws DAOException;
+
 }
