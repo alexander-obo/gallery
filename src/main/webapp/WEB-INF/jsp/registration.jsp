@@ -19,6 +19,7 @@
                 <input type="password" placeholder="Password" name="password">
                 <input type="submit" value="Sign up">
             </form>
+            <a href="login">Back to login</a>
         </div>
     </body>
 </html>
