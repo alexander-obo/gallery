@@ -91,6 +91,12 @@ public class ValidationUtilTest {
     }
 
     @Test
+    public void isLoginValid_longestLogin_valid() {
+        String login = "abcdeabcdeabcdeabcde";
+        assertTrue("Login " + login + " is valid", ValidationUtil.isLoginValid(login));
+    }
+
+    @Test
     public void isLoginValid_simpleLogin_valid() {
         String login = "simpleUser";
         assertTrue("Login " + login + " is valid", ValidationUtil.isLoginValid(login));
