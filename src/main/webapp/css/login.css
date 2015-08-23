@@ -1,0 +1,36 @@
+body {
+    margin: 5% auto;
+    text-align: center;
+    width: 50%;
+    background-color: #F0F8FF;
+}
+
+input[type=text], input[type=password] {
+    display: block;
+    margin: 5px auto;
+    border-radius: 5px;
+    height: 23px;
+    width: 210px;
+    text-align: center;
+}
+
+input[type=submit] {
+    background: none !important;
+    border: none;
+    padding: 0 !important;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+input[type=submit]:focus {
+    outline: none;
+}
+
+a:visited, input[type=submit] {
+    color: #0000ED;
+}
+
+.text {
+    font-size: 16px;
+}

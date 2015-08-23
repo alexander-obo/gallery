@@ -5,6 +5,7 @@
 <html>
     <head>
         <title>Gallery</title>
+        <link rel="stylesheet" type="text/css" href="css/login.css">
     </head>
     <body>
         <c:if test="${errorMessage ne null}">
@@ -12,13 +13,17 @@
                 <span>${errorMessage}</span>
             </div>
         </c:if>
+        <h1>Gallery</h1>
         <div>
             <form method="POST" action="login">
-                <input type="text" placeholder="Login" name="login">
-                <input type="password" placeholder="Password" name="password">
-                <input type="submit" value="Login">
+                <input type="text" placeholder="Login" name="login" class="text">
+                <input type="password" placeholder="Password" name="password" class="text">
+                <div>
+                    <input type="submit" value="Login" class="text">
+                    <span class="text">or</span>
+                    <a href="registration" class="text">Sign up</a>
+                </div>
             </form>
-            <a href="registration">Registration</a>
         </div>
     </body>
 </html>
