@@ -169,6 +169,11 @@ public class ValidationUtilTest {
     }
 
     @Test
+    public void isPasswordValid_passwordWithSpace_notValid() {
+        assertFalse("Password cannot contains spaces", ValidationUtil.isPasswordValid("pass word"));
+    }
+
+    @Test
     public void isPasswordValid_simplePassword_valid() {
         String password = "password";
         assertTrue("Password \"" + password + "\" is valid", ValidationUtil.isPasswordValid(password));

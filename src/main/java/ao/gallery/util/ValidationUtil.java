@@ -49,6 +49,9 @@ public final class ValidationUtil {
         if (StringUtils.isBlank(password)) {
             return false;
         }
+        if (password.contains(" ")) {
+            return false;
+        }
         return !(password.length() < MINIMUM_PASSWORD_LENGTH || password.length() > MAXIMUM_PASSWORD_LENGTH);
     }
 }
