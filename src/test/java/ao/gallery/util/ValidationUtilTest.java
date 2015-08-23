@@ -80,6 +80,12 @@ public class ValidationUtilTest {
     }
 
     @Test
+    public void isLoginValid_shortestLogin_valid() {
+        String login = "abc";
+        assertTrue("Login " + login + " is valid", ValidationUtil.isLoginValid(login));
+    }
+
+    @Test
     public void isLoginValid_tooLongLogin_notValid() {
         assertFalse("Login cannot be greater than 20 symbols", ValidationUtil.isLoginValid("abcdeabcdeabcdeabcdea"));
     }
