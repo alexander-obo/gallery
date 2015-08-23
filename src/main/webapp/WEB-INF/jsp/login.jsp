@@ -13,6 +13,15 @@
                 <span>${errorMessage}</span>
             </div>
         </c:if>
+        <c:if test="${errorMessages ne null}">
+            <div>
+                <ul>
+                    <c:forEach items="${errorMessages}" var="errorMessage">
+                        <li>${errorMessage}</li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </c:if>
         <h1>Gallery</h1>
         <div>
             <form method="POST" action="login">

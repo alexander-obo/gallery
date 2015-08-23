@@ -28,5 +28,5 @@ CREATE TABLE users_pictures (
     ON DELETE CASCADE
 );
 
-INSERT INTO users (user_email, user_name, user_password) VALUES ('admin@admin.com', 'admin', 'admin');
+INSERT INTO users (user_email, user_name, user_password) VALUES ('admin@admin.com', 'admin', 'admin123');
 INSERT INTO user_roles (user_name, role_name) VALUES ('admin', 'admin');
