@@ -7,6 +7,10 @@
     </head>
     <body>
         <div>
+            <form action="search">
+                <input type="text" name="userName">
+                <input type="submit" value="Search">
+            </form>
             <ul>
                 <c:forEach items="${usersNames}" var="userName">
                     <li>

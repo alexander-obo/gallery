@@ -18,9 +18,13 @@ public class SearchController extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userName = request.getParameter("userName");
+        if (userName == null) {
+            userName = "";
+        }
         List<String> usersNames = new ArrayList<>();
         try {
-            usersNames = dao.getUsersNames("");
+            usersNames = dao.getUsersNames(userName);
         } catch (DAOException ex) {
             log("Error loading users names", ex);
         }
