@@ -120,6 +120,20 @@ public class ValidationUtilTest {
     }
 
     @Test
+    public void isLoginValid_startsWithDelimiter_notValid() {
+        assertFalse("Login cannot starts with \".\"", ValidationUtil.isLoginValid(".userlogin"));
+        assertFalse("Login cannot starts with \"-\"", ValidationUtil.isLoginValid("-userlogin"));
+        assertFalse("Login cannot starts with \"_\"", ValidationUtil.isLoginValid("_userlogin"));
+    }
+
+    @Test
+    public void isLoginValid_endsWithDelimiter_notValid() {
+        assertFalse("Login cannot ends with \".\"", ValidationUtil.isLoginValid("userlogin."));
+        assertFalse("Login cannot ends with \"-\"", ValidationUtil.isLoginValid("userlogin-"));
+        assertFalse("Login cannot ends with \"_\"", ValidationUtil.isLoginValid("userlogin_"));
+    }
+
+    @Test
     public void isPasswordValid_null_notValid() {
         assertFalse("Password cannot be null", ValidationUtil.isPasswordValid(null));
     }

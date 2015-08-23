@@ -11,7 +11,7 @@ public final class ValidationUtil {
     private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
-    private static final String LOGIN_REGEX = "^[A-z\\d\\.\\-_]{3,20}$";
+    private static final String LOGIN_REGEX = "^[A-Za-z\\d][A-Za-z\\d\\.\\-_]{1,18}[A-Za-z\\d]$";
     private static final Pattern LOGIN_PATTERN = Pattern.compile(LOGIN_REGEX);
 
     private static final int MINIMUM_PASSWORD_LENGTH = 6;
