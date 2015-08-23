@@ -7,6 +7,7 @@
     </head>
     <body>
         <div>
+            <%@include file="include/navigation.jsp"%>
             <form action="search">
                 <input type="text" name="userName">
                 <input type="submit" value="Search">
