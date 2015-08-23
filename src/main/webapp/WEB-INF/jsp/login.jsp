@@ -8,11 +8,6 @@
         <link rel="stylesheet" type="text/css" href="css/login.css">
     </head>
     <body>
-        <c:if test="${errorMessage ne null}">
-            <div>
-                <span>${errorMessage}</span>
-            </div>
-        </c:if>
         <c:if test="${errorMessages ne null}">
             <div>
                 <ul>

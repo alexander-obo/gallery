@@ -36,7 +36,8 @@ public class LoginController extends HttpServlet {
         } catch (ServletException ex) {
             log("Login failed", ex);
             session.invalidate();
-            request.setAttribute("errorMessage", ex.getMessage());
+            errorMessages.add(ex.getMessage());
+            request.setAttribute("errorMessages", errorMessages);
             forwardToLoginPage(request, response);
         }
     }
