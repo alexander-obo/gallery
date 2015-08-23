@@ -103,6 +103,11 @@ public class ValidationUtilTest {
     }
 
     @Test
+    public void isLoginValid_nonEnglishSymbolInLogin_notValid() {
+        assertFalse("Login can only consists of English letters", ValidationUtil.isLoginValid("пользователь"));
+    }
+
+    @Test
     public void isPasswordValid_null_notValid() {
         assertFalse("Password cannot be null", ValidationUtil.isPasswordValid(null));
     }

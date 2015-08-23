@@ -13,6 +13,8 @@ public final class ValidationUtil {
 
     private static final int MINIMUM_LOGIN_LENGTH = 3;
     private static final int MAXIMUM_LOGIN_LENGTH = 20;
+    private static final String LOGIN_REGEX = "^[A-Za-z0-9]*$";
+    private static final Pattern LOGIN_PATTERN = Pattern.compile(LOGIN_REGEX);
 
     private static final int MINIMUM_PASSWORD_LENGTH = 6;
     private static final int MAXIMUM_PASSWORD_LENGTH = 20;
@@ -32,7 +34,11 @@ public final class ValidationUtil {
         if (StringUtils.isBlank(login)) {
             return false;
         }
-        return !(login.length() < MINIMUM_LOGIN_LENGTH || login.length() > MAXIMUM_LOGIN_LENGTH);
+        if (login.length() < MINIMUM_LOGIN_LENGTH || login.length() > MAXIMUM_LOGIN_LENGTH) {
+            return false;
+        }
+        Matcher matcher = LOGIN_PATTERN.matcher(login);
+        return matcher.matches();
     }
 
     public static boolean isPasswordValid(String password) {
