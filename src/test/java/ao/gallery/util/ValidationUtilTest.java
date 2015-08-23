@@ -134,6 +134,16 @@ public class ValidationUtilTest {
     }
 
     @Test
+    public void isLoginValid_moreThanOneDelimiterTogether_notValid() {
+        assertFalse("Login cannot contains more than one delimiter together", ValidationUtil.isLoginValid("user..login"));
+        assertFalse("Login cannot contains more than one delimiter together", ValidationUtil.isLoginValid("user--login"));
+        assertFalse("Login cannot contains more than one delimiter together", ValidationUtil.isLoginValid("user__login"));
+        assertFalse("Login cannot contains more than one delimiter together", ValidationUtil.isLoginValid("user._login"));
+        assertFalse("Login cannot contains more than one delimiter together", ValidationUtil.isLoginValid("user-.login"));
+        assertFalse("Login cannot contains more than one delimiter together", ValidationUtil.isLoginValid("user_-login"));
+    }
+
+    @Test
     public void isPasswordValid_null_notValid() {
         assertFalse("Password cannot be null", ValidationUtil.isPasswordValid(null));
     }

@@ -11,6 +11,7 @@ public final class ValidationUtil {
     private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
+    private static final String LOGIN_DELIMITERS = ".-_";
     private static final String LOGIN_REGEX = "^[A-Za-z\\d][A-Za-z\\d\\.\\-_]{1,18}[A-Za-z\\d]$";
     private static final Pattern LOGIN_PATTERN = Pattern.compile(LOGIN_REGEX);
 
@@ -31,6 +32,14 @@ public final class ValidationUtil {
     public static boolean isLoginValid(String login) {
         if (login == null) {
             return false;
+        }
+        // check for more than one delimiter together
+        for (int i = 0; i < login.length() - 1; i++) {
+            String current = String.valueOf(login.charAt(i));
+            String next = String.valueOf(login.charAt(i + 1));
+            if (LOGIN_DELIMITERS.contains(current) && LOGIN_DELIMITERS.contains(next)) {
+                return false;
+            }
         }
         Matcher matcher = LOGIN_PATTERN.matcher(login);
         return matcher.matches();
