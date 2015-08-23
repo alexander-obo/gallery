@@ -7,9 +7,7 @@
     </head>
     <body>
         <h1>${param.user}'s gallery</h1>
-        <div>
-            <a href="search">All users</a>
-        </div>
+        <%@include file="include/navigation.jsp"%>
         <form method="POST" action="profile">
             <input type="submit" value="Logout">
             <input type="hidden" name="action" value="logout">
