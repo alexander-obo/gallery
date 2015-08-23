@@ -108,6 +108,11 @@ public class ValidationUtilTest {
     }
 
     @Test
+    public void isLoginValid_loginWithSpace_notValid() {
+        assertFalse("Login cannot contains spaces", ValidationUtil.isLoginValid("user login"));
+    }
+
+    @Test
     public void isPasswordValid_null_notValid() {
         assertFalse("Password cannot be null", ValidationUtil.isPasswordValid(null));
     }
