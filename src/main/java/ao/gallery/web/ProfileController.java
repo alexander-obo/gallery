@@ -86,6 +86,7 @@ public class ProfileController extends HttpServlet {
                 base64Thumbnailes.add(encoder.encodeToString(thumbnailBytes));
             }
             request.setAttribute("thumbnails", base64Thumbnailes);
+            request.setAttribute("pictures", pictures);
         } catch (DAOException ex) {
             log("Error getting pictures", ex);
         }

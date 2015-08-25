@@ -6,6 +6,8 @@
         <title>${param.user}'s gallery</title>
     </head>
     <body>
+        <jsp:useBean id="profileCache" class="ao.gallery.web.cache.ProfileCache" scope="session"/>
+        <jsp:setProperty name="profileCache" property="pictures" value="${pictures}"/>
         <h1>${param.user}'s gallery</h1>
         <%@include file="include/navigation.jsp"%>
         <form method="POST" action="profile">

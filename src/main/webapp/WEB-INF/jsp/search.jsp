@@ -6,6 +6,10 @@
         <title>Search</title>
     </head>
     <body>
+        <jsp:useBean id="profileCache" class="ao.gallery.web.cache.ProfileCache" scope="session"/>
+        <c:forEach items="${profileCache.pictures}" var="picture">
+            <c:out value="${picture.name}"/>
+        </c:forEach>
         <div>
             <%@include file="include/navigation.jsp"%>
             <form action="search">
