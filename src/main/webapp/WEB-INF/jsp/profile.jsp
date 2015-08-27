@@ -25,5 +25,31 @@
         <c:forEach items="${thumbnails}" var="thumbnail">
             <img src="data:image/jpg;base64,${thumbnail}">
         </c:forEach>
+        <c:forEach items="${pictures}" var="picture">
+            <button onclick="testAjax(${picture.id})">${picture.name}</button>
+        </c:forEach>
+        <script src="js/jquery-2.1.4.min.js"></script>
+        <script>
+            function testAjax(id) {
+                var result = $.ajax({
+                    url: "profile",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+//                    beforeSend: function (xhr) {
+//                        xhr.overrideMimeType("text/plain; charset=x-user-defined");
+//                    }
+                    success: function(data, textStatus, jqXHR) {
+                        var img = document.createElement("img");
+                        var att = document.createAttribute("src");
+                        att.value = "data:image/jpg;base64," + data;
+                        img.setAttributeNode(att);
+                        document.body.appendChild(img);
+                    }
+                });
+                console.log(result);
+            }
+        </script>
     </body>
 </html>

@@ -38,6 +38,21 @@ public class ProfileController extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getParameter("id") != null) {
+            int pictureId = Integer.parseInt(request.getParameter("id"));
+            try {
+                for (Picture pictire : dao.getUserPictures(request.getRemoteUser())) {
+                    if (pictire.getId() == pictureId) {
+                        Base64.Encoder encoder = Base64.getEncoder();
+                        String s = encoder.encodeToString(pictire.getContent());
+                        response.getWriter().write(s);
+                        return;
+                    }
+                }
+            } catch (DAOException e) {
+
+            }
+        }
         String action = request.getParameter("action");
         if (action != null && action.equals("logout")) {
             logout(request, response);
