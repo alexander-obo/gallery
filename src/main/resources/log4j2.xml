@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <Properties>
+        <Property name="fileName">E:\\Development\\logs\\gallery</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="rollingFile"
+                     fileName="${fileName}.log"
+                     filePattern="${fileName}_%d{MM-dd-yyyy}.log">
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss,SSS} %p %C [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="rollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
