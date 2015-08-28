@@ -6,7 +6,7 @@
     <head>
         <title>Gallery</title>
         <%@include file="include/common_style.jsp"%>
-        <link rel="stylesheet" type="text/css" href="css/login.css">
+        <link rel="stylesheet" type="text/css" href="css/login_and_registration.css">
     </head>
     <body>
         <c:if test="${errorMessages ne null}">
