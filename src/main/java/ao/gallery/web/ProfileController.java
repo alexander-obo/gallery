@@ -20,8 +20,12 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ProfileController extends HttpServlet {
+
+    private static final Logger LOG = LogManager.getLogger(ProfileController.class);
 
     private final DAO dao = MySQLDAO.getInstance();
     // 15 MB
@@ -72,7 +76,7 @@ public class ProfileController extends HttpServlet {
                 }
             }
         } catch (FileUploadException | IOException | DAOException ex) {
-            log("Adding picture exception", ex);
+            LOG.error("Adding picture exception", ex);
         }
     }
 
@@ -87,7 +91,7 @@ public class ProfileController extends HttpServlet {
             }
             request.setAttribute("thumbnails", base64Thumbnailes);
         } catch (DAOException ex) {
-            log("Error getting pictures", ex);
+            LOG.error("Error getting pictures", ex);
         }
     }
 

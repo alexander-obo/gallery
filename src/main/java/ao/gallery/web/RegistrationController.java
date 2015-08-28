@@ -10,9 +10,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RegistrationController extends HttpServlet {
 
+    private static final Logger LOG = LogManager.getLogger(RegistrationController.class);
     private final DAO dao = MySQLDAO.getInstance();
 
     @Override
@@ -25,7 +28,7 @@ public class RegistrationController extends HttpServlet {
             dao.addUser(user);
             response.sendRedirect("login");
         } catch (DAOException e) {
-            log("Error adding user", e);
+            LOG.error("Error adding user", e);
             request.setAttribute("errorMessage", e.getMessage());
             forwardToRegistrationPage(request, response);
         }

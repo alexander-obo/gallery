@@ -10,8 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LoginController extends HttpServlet {
+
+    private static final Logger LOG = LogManager.getLogger(LoginController.class);
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,9 +36,10 @@ public class LoginController extends HttpServlet {
         HttpSession session = request.getSession();
         try {
             request.login(userName, password);
+            LOG.info("User \"{}\" logged in successfully", userName);
             response.sendRedirect("profile?user=" + request.getRemoteUser());
         } catch (ServletException ex) {
-            log("Login failed", ex);
+            LOG.error("Login failed", ex);
             session.invalidate();
             errorMessages.add(ex.getMessage());
             request.setAttribute("errorMessages", errorMessages);

@@ -11,9 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SearchController extends HttpServlet {
 
+    private static final Logger LOG = LogManager.getLogger(SearchController.class);
     private final DAO dao = MySQLDAO.getInstance();
 
     @Override
@@ -26,7 +29,7 @@ public class SearchController extends HttpServlet {
         try {
             usersNames = dao.getUsersNames(userName);
         } catch (DAOException ex) {
-            log("Error loading users names", ex);
+            LOG.error("Error loading users names", ex);
         }
         request.setAttribute("usersNames", usersNames);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/search.jsp");
