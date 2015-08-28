@@ -4,6 +4,7 @@
 <html>
     <head>
         <title>Search</title>
+        <%@include file="include/common_style.jsp"%>
     </head>
     <body>
         <div>

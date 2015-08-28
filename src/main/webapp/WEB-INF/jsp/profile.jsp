@@ -4,6 +4,7 @@
 <html>
     <head>
         <title>${param.user}'s gallery</title>
+        <%@include file="include/common_style.jsp"%>
     </head>
     <body>
         <h1>${param.user}'s gallery</h1>

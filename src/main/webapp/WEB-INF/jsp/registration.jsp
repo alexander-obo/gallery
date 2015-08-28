@@ -5,6 +5,7 @@
 <html>
     <head>
         <title>Gallery registration</title>
+        <%@include file="include/common_style.jsp"%>
     </head>
     <body>
         <c:if test="${errorMessage ne null}">
