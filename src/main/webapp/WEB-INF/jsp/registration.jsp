@@ -18,11 +18,6 @@
                 </ul>
             </div>
         </c:if>
-        <c:if test="${errorMessage ne null}">
-            <div>
-                <span>${errorMessage}</span>
-            </div>
-        </c:if>
         <div>
             <form method="POST" action="registration">
                 <input type="text" placeholder="Email" name="email" class="text">
