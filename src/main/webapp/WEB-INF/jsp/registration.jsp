@@ -9,6 +9,15 @@
         <link rel="stylesheet" type="text/css" href="css/login_and_registration.css">
     </head>
     <body>
+        <c:if test="${errorMessages ne null}">
+            <div>
+                <ul>
+                    <c:forEach items="${errorMessages}" var="message">
+                        <li>${message}</li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </c:if>
         <c:if test="${errorMessage ne null}">
             <div>
                 <span>${errorMessage}</span>

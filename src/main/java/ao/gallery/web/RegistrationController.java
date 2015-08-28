@@ -4,7 +4,10 @@ import ao.gallery.dao.DAO;
 import ao.gallery.dao.DAOException;
 import ao.gallery.dao.MySQLDAO;
 import ao.gallery.dao.User;
+import ao.gallery.util.ValidationUtil;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +26,21 @@ public class RegistrationController extends HttpServlet {
         String email = request.getParameter("email");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
+        List<String> errorMessages = new ArrayList<>();
+        if (!ValidationUtil.isEmailValid(email)) {
+            errorMessages.add("Email is not valid");
+        }
+        if (!ValidationUtil.isLoginValid(login)) {
+            errorMessages.add("Login is not valid");
+        }
+        if (!ValidationUtil.isPasswordValid(password)) {
+            errorMessages.add("Password is not valid");
+        }
+        if (!errorMessages.isEmpty()) {
+            request.setAttribute("errorMessages", errorMessages);
+            forwardToRegistrationPage(request, response);
+            return;
+        }
         User user = new User(email, login, password);
         try {
             dao.addUser(user);
