@@ -5,6 +5,7 @@
 <html>
     <head>
         <title>Gallery</title>
+        <%@include file="include/common_style.jsp"%>
         <link rel="stylesheet" type="text/css" href="css/login.css">
     </head>
     <body>
