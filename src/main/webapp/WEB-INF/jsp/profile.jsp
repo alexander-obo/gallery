@@ -7,8 +7,8 @@
         <%@include file="include/common_style.jsp"%>
     </head>
     <body>
-        <h1>${param.user}'s gallery</h1>
         <%@include file="include/navigation.jsp"%>
+        <h1>${param.user}'s gallery</h1>
         <form method="POST" action="profile">
             <input type="submit" value="Logout">
             <input type="hidden" name="action" value="logout">

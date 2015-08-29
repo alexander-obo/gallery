@@ -9,3 +9,12 @@ a:visited {
 .text {
     font-size: 16px;
 }
+
+.b-navigation {
+    width: 120px;
+}
+
+.b-navigation ul {
+    list-style-type: none;
+    padding-left: 10px;
+}
