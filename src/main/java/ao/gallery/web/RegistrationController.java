@@ -26,6 +26,7 @@ public class RegistrationController extends HttpServlet {
         String email = request.getParameter("email");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
+        String reenteredPassword = request.getParameter("reenteredPassword");
         List<String> errorMessages = new ArrayList<>();
         if (!ValidationUtil.isEmailValid(email)) {
             errorMessages.add("Email is not valid");
@@ -33,7 +34,9 @@ public class RegistrationController extends HttpServlet {
         if (!ValidationUtil.isLoginValid(login)) {
             errorMessages.add("Login is not valid");
         }
-        if (!ValidationUtil.isPasswordValid(password)) {
+        if (!password.equals(reenteredPassword)) {
+            errorMessages.add("Passwords are not equal");
+        } else if (!ValidationUtil.isPasswordValid(password)) {
             errorMessages.add("Password is not valid");
         }
         if (!errorMessages.isEmpty()) {

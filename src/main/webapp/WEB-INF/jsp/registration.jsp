@@ -23,6 +23,7 @@
                 <input type="text" placeholder="Email" name="email" class="text">
                 <input type="text" placeholder="Login" name="login" class="text">
                 <input type="password" placeholder="Password" name="password" class="text">
+                <input type="password" placeholder="Reenter password" name="reenteredPassword" class="text">
                 <input type="submit" value="Sign up" class="text">
             </form>
             <a href="login" class="text">Back to login</a>
