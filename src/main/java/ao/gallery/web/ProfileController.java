@@ -8,7 +8,6 @@ import ao.gallery.dao.Picture;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -84,10 +84,9 @@ public class ProfileController extends HttpServlet {
         try {
             List<Picture> pictures = dao.getUserPictures(request.getParameter("user"));
             List<String> base64Thumbnailes = new ArrayList<>();
-            Base64.Encoder encoder = Base64.getEncoder();
             for (Picture picture : pictures) {
                 byte[] thumbnailBytes = picture.getThumbnail();
-                base64Thumbnailes.add(encoder.encodeToString(thumbnailBytes));
+                base64Thumbnailes.add(DatatypeConverter.printBase64Binary(thumbnailBytes));
             }
             request.setAttribute("thumbnails", base64Thumbnailes);
         } catch (DAOException ex) {
