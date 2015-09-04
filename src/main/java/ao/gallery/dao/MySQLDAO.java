@@ -1,5 +1,7 @@
 package ao.gallery.dao;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,18 +9,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 public class MySQLDAO implements DAO {
 
     private static MySQLDAO instance;
 
     private static final String JDBC_DRIVER_CLASS = "com.mysql.jdbc.Driver";
-    private static final String DB_HOST = "localhost";
-    private static final String DB_PORT = "3306";
-    private static final String DB_NAME = "gallery";
-    private static final String DB_CONNECTION_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
-    private static final String USER_NAME = "alexander";
-    private static final String USER_PASSWORD = "ao_password";
+    private static String dbHost = "localhost";
+    private static String dbPort = "3306";
+    private static String dbName = "gallery";
+    private static String dbConnectionUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
+    private static String dbUserName = "alexander";
+    private static String dbUserPassword = "ao_password";
     private static final String INSERT_PICTURE_QUERY = "INSERT INTO users_pictures (picture_name, uploader_name, picture, thumbnail) VALUES (?, ?, ?, ?)";
     private static final String SELECT_USER_PICTURES_QUERY = "SELECT * FROM users_pictures WHERE uploader_name = ?";
     private static final String INSERT_USER_QUERY = "INSERT INTO users (user_email, user_name, user_password) VALUES (?, ?, ?)";
@@ -38,11 +44,27 @@ public class MySQLDAO implements DAO {
         } catch (ClassNotFoundException ex) {
             System.err.println(ex);
         }
+        try {
+            InitialContext initCtx = new InitialContext();
+            Context defCtx = (Context) initCtx.lookup("java:comp/env");
+            String dbConfigurationPath = (String) defCtx.lookup("dbConfigurationPath");
+            FileInputStream fis = new FileInputStream(dbConfigurationPath);
+            Properties properties = new Properties();
+            properties.load(fis);
+            dbHost = properties.getProperty("host");
+            dbPort = properties.getProperty("port");
+            dbName = properties.getProperty("db_name");
+            dbUserName = properties.getProperty("user_name");
+            dbUserPassword = properties.getProperty("user_password");
+            dbConnectionUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
+        } catch (NamingException | IOException ex) {
+            System.err.println(ex);
+        }
     }
 
     @Override
     public void addPicture(Picture picture) throws DAOException {
-        try (Connection connection = DriverManager.getConnection(DB_CONNECTION_URL, USER_NAME, USER_PASSWORD);
+        try (Connection connection = DriverManager.getConnection(dbConnectionUrl, dbUserName, dbUserPassword);
                 PreparedStatement statement = connection.prepareStatement(INSERT_PICTURE_QUERY)) {
             statement.setString(1, picture.getName());
             statement.setString(2, picture.getOwnerName());
@@ -57,7 +79,7 @@ public class MySQLDAO implements DAO {
     @Override
     public List<Picture> getUserPictures(String userName) throws DAOException {
         List<Picture> pictures = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(DB_CONNECTION_URL, USER_NAME, USER_PASSWORD);
+        try (Connection connection = DriverManager.getConnection(dbConnectionUrl, dbUserName, dbUserPassword);
                 PreparedStatement statement = connection.prepareStatement(SELECT_USER_PICTURES_QUERY)) {
             statement.setString(1, userName);
             ResultSet resultSet = statement.executeQuery();
@@ -79,7 +101,7 @@ public class MySQLDAO implements DAO {
 
     @Override
     public void addUser(User user) throws DAOException {
-        try (Connection connection = DriverManager.getConnection(DB_CONNECTION_URL, USER_NAME, USER_PASSWORD)) {
+        try (Connection connection = DriverManager.getConnection(dbConnectionUrl, dbUserName, dbUserPassword)) {
             connection.setAutoCommit(false);
             try (PreparedStatement addUserStatement = connection.prepareStatement(INSERT_USER_QUERY);
                     PreparedStatement addUserRoleStatement = connection.prepareStatement(INSERT_USER_ROLE_QUERY)) {
@@ -103,7 +125,7 @@ public class MySQLDAO implements DAO {
     @Override
     public List<String> getUsersNames(String name) throws DAOException {
         List<String> usersNames = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(DB_CONNECTION_URL, USER_NAME, USER_PASSWORD);
+        try (Connection connection = DriverManager.getConnection(dbConnectionUrl, dbUserName, dbUserPassword);
                 PreparedStatement statement = connection.prepareStatement(SELECT_USERS_NAMES_QUERY)) {
             statement.setString(1, name + "%");
             ResultSet resultSet = statement.executeQuery();
