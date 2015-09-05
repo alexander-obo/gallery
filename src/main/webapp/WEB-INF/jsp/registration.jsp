@@ -9,6 +9,9 @@
         <link rel="stylesheet" type="text/css" href="css/login_and_registration.css">
     </head>
     <body>
+        <script src="js/jquery-2.1.4.min.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
+        <script src="js/registration_validation.js"></script>
         <c:if test="${errorMessages ne null}">
             <div>
                 <ul>
@@ -19,10 +22,10 @@
             </div>
         </c:if>
         <div>
-            <form method="POST" action="registration">
+            <form id="registration_form" method="POST" action="registration">
                 <input type="text" placeholder="Email" name="email" class="text">
                 <input type="text" placeholder="Login" name="login" class="text">
-                <input type="password" placeholder="Password" name="password" class="text">
+                <input type="password" placeholder="Password" id="password" name="password" class="text">
                 <input type="password" placeholder="Reenter password" name="reenteredPassword" class="text">
                 <input type="submit" value="Sign up" class="text">
             </form>

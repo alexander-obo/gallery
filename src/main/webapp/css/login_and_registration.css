@@ -29,3 +29,15 @@ input[type=submit]:focus {
 input[type=submit] {
     color: #0000ED;
 }
+
+input.error {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 1);
+}
+
+input.error:focus {
+    outline: 0;
+}
+
+label.error {
+    color: red;
+}
