@@ -26,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 public class ProfileController extends HttpServlet {
 
     private static final Logger LOG = LogManager.getLogger(ProfileController.class);
+    private static final int FILES_COUNT_LIMIT = 5;
 
     private final DAO dao = MySQLDAO.getInstance();
     // 15 MB
@@ -65,6 +66,9 @@ public class ProfileController extends HttpServlet {
         servletFileUpload.setSizeMax(maxFileSize);
         try {
             List<FileItem> fileItems = servletFileUpload.parseRequest(request);
+            if (fileItems.size() > FILES_COUNT_LIMIT) {
+                return;
+            }
             for (FileItem fileItem : fileItems) {
                 if (!fileItem.isFormField() && fileItem.getSize() > 0) {
                     String fileName = fileItem.getName();

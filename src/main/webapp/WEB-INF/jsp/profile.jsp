@@ -15,11 +15,7 @@
         </form>
         <c:if test="${pageContext.request.remoteUser eq param.user}">
             <form method="POST" enctype="multipart/form-data" action="profile">
-                <input type="file" name="picture_1">
-                <input type="file" name="picture_2">
-                <input type="file" name="picture_3">
-                <input type="file" name="picture_4">
-                <input type="file" name="picture_5">
+                <input type="file" name="pictures" multiple>
                 <input type="submit" value="Submit">
             </form>
         </c:if>
