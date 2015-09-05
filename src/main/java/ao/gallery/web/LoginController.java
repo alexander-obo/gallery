@@ -49,7 +49,11 @@ public class LoginController extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        forwardToLoginPage(request, response);
+        if (request.getRemoteUser() == null) {
+            forwardToLoginPage(request, response);
+        } else {
+            response.sendRedirect("profile?user=" + request.getRemoteUser());
+        }
     }
 
     private void forwardToLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
