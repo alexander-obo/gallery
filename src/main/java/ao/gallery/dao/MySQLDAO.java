@@ -13,9 +13,12 @@ import java.util.Properties;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MySQLDAO implements DAO {
 
+    private static final Logger LOG = LogManager.getLogger(MySQLDAO.class);
     private static MySQLDAO instance;
 
     private static final String JDBC_DRIVER_CLASS = "com.mysql.jdbc.Driver";
@@ -66,6 +69,7 @@ public class MySQLDAO implements DAO {
     public void addPicture(Picture picture) throws DAOException {
         try (Connection connection = DriverManager.getConnection(dbConnectionUrl, dbUserName, dbUserPassword);
                 PreparedStatement statement = connection.prepareStatement(INSERT_PICTURE_QUERY)) {
+            LOG.info("Adding picture \"{}\", uploader \"{}\"...", picture.getName(), picture.getOwnerName());
             statement.setString(1, picture.getName());
             statement.setString(2, picture.getOwnerName());
             statement.setBytes(3, picture.getContent());
@@ -82,6 +86,7 @@ public class MySQLDAO implements DAO {
         try (Connection connection = DriverManager.getConnection(dbConnectionUrl, dbUserName, dbUserPassword);
                 PreparedStatement statement = connection.prepareStatement(SELECT_USER_PICTURES_QUERY)) {
             statement.setString(1, userName);
+            LOG.info("Loading \"{}\" pictures...", userName);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int pictureId = resultSet.getInt(1);
@@ -93,6 +98,7 @@ public class MySQLDAO implements DAO {
                 Picture picture = new Picture(pictureId, pictureName, pictureUploaderName, pictureContent, thumbnail);
                 pictures.add(picture);
             }
+            LOG.info("Loaded {} pictures, uploader \"{}\"", pictures.size(), userName);
         } catch (SQLException ex) {
             throw new DAOException(ex);
         }
@@ -105,6 +111,7 @@ public class MySQLDAO implements DAO {
             connection.setAutoCommit(false);
             try (PreparedStatement addUserStatement = connection.prepareStatement(INSERT_USER_QUERY);
                     PreparedStatement addUserRoleStatement = connection.prepareStatement(INSERT_USER_ROLE_QUERY)) {
+                LOG.info("Adding user \"{}\"...", user.getLogin());
                 addUserStatement.setString(1, user.getEmail());
                 addUserStatement.setString(2, user.getLogin());
                 addUserStatement.setString(3, user.getPassword());
@@ -127,11 +134,13 @@ public class MySQLDAO implements DAO {
         List<String> usersNames = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(dbConnectionUrl, dbUserName, dbUserPassword);
                 PreparedStatement statement = connection.prepareStatement(SELECT_USERS_NAMES_QUERY)) {
+            LOG.info("Loading users names which start with \"{}\"...", name);
             statement.setString(1, name + "%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 usersNames.add(resultSet.getString(1));
             }
+            LOG.info("Loaded {} users names", usersNames.size());
         } catch (SQLException ex) {
             throw new DAOException(ex);
         }
