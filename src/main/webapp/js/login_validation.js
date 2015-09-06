@@ -24,7 +24,8 @@ $().ready(function () {
             password: {
                 required: true,
                 minlength: 6,
-                maxlength: 20
+                maxlength: 20,
+                noSpaces: true
             }
         },
         messages: {
@@ -37,7 +38,8 @@ $().ready(function () {
             password: {
                 required: "Password is required",
                 minlength: "Password should be greater than 6 symbols",
-                maxlength: "Password should be less than 20 symbols"
+                maxlength: "Password should be less than 20 symbols",
+                noSpaces: "Password should not contains a space"
             }
         }
     });
