@@ -9,7 +9,6 @@
     <body>
         <%@include file="include/navigation.jsp"%>
         <jsp:useBean id="profile" class="ao.gallery.web.session.Profile" scope="session"/>
-        <jsp:setProperty name="profile" property="pictures" value="${pictures}"/>
         <h1>${param.user}'s gallery</h1>
         <form method="POST" action="profile">
             <input type="submit" value="Logout">
@@ -21,7 +20,7 @@
                 <input type="submit" value="Submit">
             </form>
         </c:if>
-        <c:forEach items="${thumbnails}" var="thumbnail">
+        <c:forEach items="${profile.thumbnails}" var="thumbnail">
             <img src="data:image/jpg;base64,${thumbnail}">
         </c:forEach>
     </body>

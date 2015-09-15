@@ -5,10 +5,10 @@ import ao.gallery.dao.DAOException;
 import ao.gallery.dao.DAO;
 import ao.gallery.dao.MySQLDAO;
 import ao.gallery.dao.Picture;
+import ao.gallery.web.session.Profile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,7 +36,11 @@ public class ProfileController extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        preparePicturesToRender(request);
+        List<Picture> pictures = getPictures(request.getParameter("user"));
+        Profile profile = new Profile();
+        profile.setPictures(pictures);
+        HttpSession session = request.getSession();
+        session.setAttribute("profile", profile);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");
         dispatcher.forward(request, response);
     }
@@ -84,20 +88,14 @@ public class ProfileController extends HttpServlet {
         }
     }
 
-    private void preparePicturesToRender(HttpServletRequest request) {
+    private List<Picture> getPictures(String userName) {
+        List<Picture> pictures = new ArrayList<>();
         try {
-            List<Picture> pictures = dao.getUserPictures(request.getParameter("user"));
-            List<String> base64Thumbnailes = new ArrayList<>();
-            Base64.Encoder encoder = Base64.getEncoder();
-            for (Picture picture : pictures) {
-                byte[] thumbnailBytes = picture.getThumbnail();
-                base64Thumbnailes.add(encoder.encodeToString(thumbnailBytes));
-            }
-            request.setAttribute("thumbnails", base64Thumbnailes);
-            request.setAttribute("pictures", pictures);
+            pictures = dao.getUserPictures(userName);
         } catch (DAOException ex) {
             LOG.error("Error getting pictures", ex);
         }
+        return pictures;
     }
 
     private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
