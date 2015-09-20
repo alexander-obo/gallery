@@ -21,7 +21,32 @@
             </form>
         </c:if>
         <c:forEach items="${profile.pictures}" var="picture">
-            <img src="data:image/jpg;base64,${picture.thumbnail}">
+            <img src="data:image/jpg;base64,${picture.thumbnail}"
+                 onclick="testAjax(${picture.id})">
         </c:forEach>
+        <div id="pictureContentBlock">
+        </div>
+        <script src="js/jquery-2.1.4.min.js"></script>
+        <script>
+            function testAjax(id) {
+                var result = $.ajax({
+                    url: "profile",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    success: function(data, textStatus, jqXHR) {
+                        var img = $("#pictureContentBlock").find("img")[0];
+                        if (!img) {
+                            img = document.createElement("img");
+                            $("#pictureContentBlock").append(img);
+                        }
+                        var srcAttr = document.createAttribute("src");
+                        srcAttr.value = "data:image/jpg;base64," + data;
+                        img.setAttributeNode(srcAttr);
+                    }
+                });
+            }
+        </script>
     </body>
 </html>

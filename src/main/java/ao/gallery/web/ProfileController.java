@@ -47,6 +47,17 @@ public class ProfileController extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getParameter("id") != null) {
+            int pictureId = Integer.parseInt(request.getParameter("id"));
+            Profile profile = (Profile) request.getSession().getAttribute("profile");
+            for (ao.gallery.web.Picture picture : profile.getPictures()) {
+                if (picture.getId() == pictureId) {
+                    response.getWriter().write(picture.getContent());
+                    break;
+                }
+            }
+            return;
+        }
         String action = request.getParameter("action");
         if (action != null && action.equals("logout")) {
             logout(request, response);
