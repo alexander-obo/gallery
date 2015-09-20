@@ -22,6 +22,7 @@
         </c:if>
         <c:forEach items="${profile.pictures}" var="picture">
             <img src="data:image/jpg;base64,${picture.thumbnail}"
+                 alt="${picture.name}"
                  onclick="testAjax(${picture.id})">
         </c:forEach>
         <div id="pictureContentBlock">
