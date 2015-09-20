@@ -19,6 +19,14 @@
     <servlet>
         <servlet-name>ProfileController</servlet-name>
         <servlet-class>ao.gallery.web.ProfileController</servlet-class>
+        <multipart-config>
+            <!-- 10 MB -->
+            <max-file-size>10485760</max-file-size>
+            <!-- 50 MB -->
+            <max-request-size>52428800</max-request-size>
+            <!-- 10 MB & 1 byte-->
+            <file-size-threshold>10485761</file-size-threshold>
+        </multipart-config>
     </servlet>
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>

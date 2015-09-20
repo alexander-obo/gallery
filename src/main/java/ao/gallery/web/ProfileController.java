@@ -6,7 +6,6 @@ import ao.gallery.dao.DAO;
 import ao.gallery.dao.MySQLDAO;
 import ao.gallery.dao.Picture;
 import ao.gallery.web.session.Profile;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import javax.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,10 +25,6 @@ public class ProfileController extends HttpServlet {
     private static final int FILES_COUNT_LIMIT = 5;
 
     private final DAO dao = MySQLDAO.getInstance();
-    // 15 MB
-    private final int maxFileSize = 15 * 1024 * 1024;
-    // 10 MB
-    private final int maxMemorySize = 10 * 1024 * 1024;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,38 +55,33 @@ public class ProfileController extends HttpServlet {
             logout(request, response);
             return;
         }
-        if (ServletFileUpload.isMultipartContent(request)) {
-            processMultipartContent(request);
-        }
+        processMultipartContent(request);
         response.sendRedirect("profile?user=" + request.getRemoteUser());
     }
 
     private void processMultipartContent(HttpServletRequest request) {
-        DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
-        // maximum size that will be stored in memory
-        diskFileItemFactory.setSizeThreshold(maxMemorySize);
-        // Location to save data that imaxMemSizes larger than maxMemSize.
-        diskFileItemFactory.setRepository(new File("c:\\temp"));
-        // Create a new file upload handler
-        ServletFileUpload servletFileUpload = new ServletFileUpload(diskFileItemFactory);
-        // maximum file size to be uploaded.
-        servletFileUpload.setSizeMax(maxFileSize);
         try {
-            List<FileItem> fileItems = servletFileUpload.parseRequest(request);
-            if (fileItems.size() > FILES_COUNT_LIMIT) {
+            int filesCount = 0;
+            for (Part part : request.getParts()) {
+                if (part.getName().equals("pictures") && part.getSize() > 0) {
+                    filesCount++;
+                }
+            }
+            if (filesCount > FILES_COUNT_LIMIT) {
                 return;
             }
-            for (FileItem fileItem : fileItems) {
-                if (!fileItem.isFormField() && fileItem.getSize() > 0) {
-                    String fileName = fileItem.getName();
+            for (Part part : request.getParts()) {
+                if (part.getName().equals("pictures") && part.getSize() > 0) {
+                    String fileName = part.getSubmittedFileName();
                     String fileUploaderName = request.getRemoteUser();
-                    byte[] pictureBytes = fileItem.get();
+                    byte[] pictureBytes = new byte[(int) part.getSize()];
+                    part.getInputStream().read(pictureBytes);
                     byte[] thumbnailBytes = Util.getPictureThumbnail(pictureBytes);
                     Picture picture = new Picture(fileName, fileUploaderName, pictureBytes, thumbnailBytes);
                     dao.addPicture(picture);
                 }
             }
-        } catch (FileUploadException | IOException | DAOException ex) {
+        } catch (ServletException | IOException | DAOException ex) {
             LOG.error("Adding picture exception", ex);
         }
     }
