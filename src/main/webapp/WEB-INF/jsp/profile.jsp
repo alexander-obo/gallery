@@ -20,8 +20,8 @@
                 <input type="submit" value="Submit">
             </form>
         </c:if>
-        <c:forEach items="${profile.thumbnails}" var="thumbnail">
-            <img src="data:image/jpg;base64,${thumbnail}">
+        <c:forEach items="${profile.pictures}" var="picture">
+            <img src="data:image/jpg;base64,${picture.thumbnail}">
         </c:forEach>
     </body>
 </html>

@@ -38,7 +38,7 @@ public class ProfileController extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Picture> pictures = getPictures(request.getParameter("user"));
         Profile profile = new Profile();
-        profile.setPictures(pictures);
+        profile.setPictures(Util.convertPicturesDataToView(pictures));
         HttpSession session = request.getSession();
         session.setAttribute("profile", profile);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/profile.jsp");
