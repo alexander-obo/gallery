@@ -45,7 +45,7 @@ public class MySQLDAO implements DAO {
         try {
             Class.forName(JDBC_DRIVER_CLASS);
         } catch (ClassNotFoundException ex) {
-            System.err.println(ex);
+            LOG.error(ex);
         }
         try {
             InitialContext initCtx = new InitialContext();
@@ -60,8 +60,9 @@ public class MySQLDAO implements DAO {
             dbUserName = properties.getProperty("user_name");
             dbUserPassword = properties.getProperty("user_password");
             dbConnectionUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
+            LOG.info("DB URL: {}", dbConnectionUrl);
         } catch (NamingException | IOException ex) {
-            System.err.println(ex);
+            LOG.error(ex);
         }
     }
 
